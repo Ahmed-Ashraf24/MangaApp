@@ -1,0 +1,6 @@
+<!-- res/drawable/rounded_login_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#A64D4D4D" /> <!-- Darker gray with 65% opacity -->
+    <corners android:radius="30dp" /> <!-- Rounded corners -->
+</shape>
