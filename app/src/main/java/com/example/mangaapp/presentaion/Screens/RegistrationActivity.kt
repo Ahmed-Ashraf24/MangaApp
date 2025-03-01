@@ -38,38 +38,36 @@ class RegistrationActivity : AppCompatActivity() {
         val regiserationErrorMessage=binding.registerationErrorMessage
 
         binding.signUpButton.setOnClickListener {
-            val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$".toRegex()
-
             if(!nameEditText.text!!.isBlank()&&
                 !ageEditText.text!!.isBlank()&&
                 !emailEditText.text!!.isBlank()&&
                 !passwordEditText.text!!.isBlank()&&
                 !confirmPasswordEditText.text!!.isBlank()){
-                if(emailRegex.matches(emailEditText.text.toString())){
+
                     if(passwordEditText.text.toString()==confirmPasswordEditText.text.toString()){
-                    signUpViewModel.register(UserEntity(
+                    if(signUpViewModel.register(UserEntity(
                         userName = nameEditText.text.toString(),
                         userEmail = emailEditText.text.toString(),
                         userAge = ageEditText.text.toString().toInt(),
                         userPassword = passwordEditText.text.toString())
-                    )
+                    )){
                         val screenIntent= Intent(this,MainScreen::class.java).apply {
                             putExtra("name",nameEditText.text.toString())
                         }
                         startActivity(screenIntent)
                     }
                     else{
+                        regiserationErrorMessage.text="the email formula is wrong"
+                        regiserationErrorMessage.isVisible=true
+                    }
+                    }
+
+                    else{
                         regiserationErrorMessage.text="password is not matching confirm password"
                         regiserationErrorMessage.isVisible=true
 
                     }
-                }
-                else{
-                    regiserationErrorMessage.text="the email formula is wrong"
-                    regiserationErrorMessage.isVisible=true
 
-
-                }
             }
             else{
                 regiserationErrorMessage.text="You Must Fill All The Fields"

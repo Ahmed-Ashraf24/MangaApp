@@ -33,12 +33,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.loginButton.setOnClickListener {
-            val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+.com".toRegex()
             val email=binding.emailEditText
             val password=binding.passwordEditText
             val loginErrorMessage=binding.loginErrorMessage
             if(!email.text!!.isBlank()&&!password.text!!.isBlank()){
-              if(emailRegex.matches(email.text.toString())){
+              if(loginViewModel.login(email.text.toString(),password.text.toString())!="Invalid Email"){
                   if(loginViewModel.login(email.text.toString(),password.text.toString())!=null){
                       val intent=Intent(this,MainScreen::class.java).apply {
                          putExtra("name",loginViewModel.login(email.text.toString(),password.text.toString()))
