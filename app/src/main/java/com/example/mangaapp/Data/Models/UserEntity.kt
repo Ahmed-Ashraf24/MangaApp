@@ -11,9 +11,6 @@ data class UserEntity(
     val userName : String
     ,val userEmail:String
     ,val userPassword:String
-    ,val userAge:Int
+    ,val userAge:Int?
 )
-fun toUserName(user:UserEntity):UserName{
-    return UserName(user.userName)
 
-}
