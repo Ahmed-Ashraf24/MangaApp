@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     id("kotlin-kapt")
     id("org.jetbrains.kotlin.kapt")
+    id("kotlin-parcelize")
+
     alias(libs.plugins.google.gms.google.services)  // No version needed here
 }
 
@@ -45,6 +47,13 @@ android {
 }
 
 dependencies {
+
+        implementation("com.squareup.retrofit2:retrofit:2.9.0")
+        implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+        implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation (libs.room.runtime)
     implementation (libs.room.ktx)
     implementation("com.google.android.gms:play-services-auth:20.0.0") // Latest version
@@ -53,8 +62,13 @@ dependencies {
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
     implementation(libs.firebase.firestore)
-    kapt(libs.androidx.room.compiler)
+    //kapt(libs.androidx.room.compiler)
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation("androidx.cardview:cardview:1.0.0")
+    implementation ("com.github.Baseflow:PhotoView:2.2.0")
+    implementation ("com.facebook.shimmer:shimmer:0.5.0")
 
+    implementation(libs.androidx.recyclerview)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)

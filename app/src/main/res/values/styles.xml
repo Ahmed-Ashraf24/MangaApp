@@ -10,6 +10,10 @@
     <!-- Rounded Corners Style -->
     <style name="RoundedCorners">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">25dp</item> <!-- Adjust this value for more or less rounded corners -->
+        <item name="cornerSize">25dp</item>
+    </style>
+    <style name="TransparentActivityTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 </resources>

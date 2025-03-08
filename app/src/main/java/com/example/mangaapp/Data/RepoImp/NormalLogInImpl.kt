@@ -1,20 +1,23 @@
 package com.example.mangaapp.Data.RepoImp
 
 import android.util.Log
-import com.example.mangaapp.Data.DataSource.DataBaseClient
-import com.example.mangaapp.Data.DataSource.local.LocalDataBase
-import com.example.mangaapp.Data.Mapper.UserNameMapper
-import com.example.mangaapp.Domain.Entity.UserName
+import com.example.mangaapp.Data.DataSource.DataBase.DataBaseClient
+import com.example.mangaapp.Data.DataSource.DataBase.Local.LocalDataBase
+import com.example.mangaapp.Data.Mapper.UserMapper
+import com.example.mangaapp.Domain.Entity.User
 import com.example.mangaapp.Domain.RepoInterface.LogInRepo
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-class NormalLogInImpl(val email:String, val password:String)  : LogInRepo {
-    val LocalDataBaseClient: DataBaseClient=LocalDataBase()
-    override fun getUserName(): UserName? {
-        return try{
+class NormalLogInImpl(val email: String, val password: String) : LogInRepo {
+    val LocalDataBaseClient: DataBaseClient = LocalDataBase()
+    override suspend fun getUserName(): User? {
+        return try {
+            return withContext(Dispatchers.IO) {
+                LocalDataBaseClient.getUser(email, password)?.let { UserMapper.toUser(it) }
+            }
 
-            LocalDataBaseClient.getUser(email, password)!!.let { UserNameMapper.toUserName(it) }
-
-        }catch (e:Exception){
+        } catch (e: Exception) {
             Log.e("DatabaseError", "Login failed: ${e.message}")
             null
 

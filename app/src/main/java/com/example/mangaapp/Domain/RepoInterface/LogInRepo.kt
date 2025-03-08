@@ -1,7 +1,7 @@
 package com.example.mangaapp.Domain.RepoInterface
 
-import com.example.mangaapp.Domain.Entity.UserName
+import com.example.mangaapp.Domain.Entity.User
 
 interface LogInRepo {
-    fun getUserName() : UserName?
+    suspend fun getUserName() : User?
 }
