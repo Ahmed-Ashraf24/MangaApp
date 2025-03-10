@@ -1,19 +1,17 @@
-package com.example.mangaapp.presentaion.Screens
+package com.example.mangaapp.presentaion.Screens.theMainScreen
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.mangaapp.R
-import com.example.mangaapp.Utilities.Constants
 import com.example.mangaapp.Utilities.UIAdapters.MangaRecyclerAdapter
 import com.example.mangaapp.databinding.FragmentMainBinding
-import com.example.mangaapp.presentaion.ViewModels.MangaViewModel
-import com.google.android.material.chip.Chip
+import com.example.mangaapp.presentaion.Screens.mangaPage.MangaPage
+import com.example.mangaapp.presentaion.ViewModels.MangaAndChaptersViewModel.MangaViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -76,7 +74,7 @@ class MainFragment : Fragment() {
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL,false)
             binding.recommendationRecyclerview.adapter=
                 MangaRecyclerAdapter(recommendedMangaList){ manga->
-                    val intent= Intent(requireContext(),MangaPage::class.java)
+                    val intent= Intent(requireContext(), MangaPage::class.java)
                         .apply {
                             putExtra("Manga Id",manga.id)
                             putExtra("Manga Name",manga.name)
@@ -95,7 +93,7 @@ class MainFragment : Fragment() {
             binding.populerRecyclerview.layoutManager=
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL,false)
             binding.populerRecyclerview.adapter= MangaRecyclerAdapter(popularMangaList){ manga->
-                val intent= Intent(requireContext(),MangaPage::class.java)
+                val intent= Intent(requireContext(), MangaPage::class.java)
                     .apply {
                         putExtra("Manga Id",manga.id)
                         putExtra("Manga Name",manga.name)
@@ -109,12 +107,27 @@ class MainFragment : Fragment() {
             }
         }
         mangaViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+           val activityViews= (activity as? MainScreenActivity)!!.binding
             if (isLoading) {
+
                 binding.shimmerLayout.visibility=View.VISIBLE
                 binding.mainContent.visibility=View.GONE
+                activityViews.editTextSearch.isEnabled = false
+                activityViews.editTextSearch.isFocusable = false
+                activityViews.editTextSearch.isFocusableInTouchMode = false
+                for (i in 0 until activityViews.bottomNavigationView.menu.size()) {
+                    activityViews.bottomNavigationView.menu.getItem(i).isEnabled = false
+                }
+
                 binding.shimmerLayout.startShimmer()
             }
             else{
+                activityViews.editTextSearch.isEnabled = true
+                activityViews.editTextSearch.isFocusable = true
+                activityViews.editTextSearch.isFocusableInTouchMode = true
+                for (i in 0 until activityViews.bottomNavigationView.menu.size()) {
+                    activityViews.bottomNavigationView.menu.getItem(i).isEnabled = true
+                }
                 binding.shimmerLayout.stopShimmer()
                 binding.shimmerLayout.visibility=View.GONE
                 binding.mainContent.visibility=View.VISIBLE

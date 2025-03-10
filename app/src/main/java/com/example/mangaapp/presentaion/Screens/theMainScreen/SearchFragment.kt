@@ -1,4 +1,4 @@
-package com.example.mangaapp.presentaion.Screens
+package com.example.mangaapp.presentaion.Screens.theMainScreen
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,7 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mangaapp.Utilities.Constants
 import com.example.mangaapp.Utilities.UIAdapters.SearchedMangaAdapter
 import com.example.mangaapp.databinding.FragmentSearchBinding
-import com.example.mangaapp.presentaion.ViewModels.MangaViewModel
+import com.example.mangaapp.presentaion.Screens.mangaPage.MangaPage
+import com.example.mangaapp.presentaion.ViewModels.MangaAndChaptersViewModel.MangaViewModel
 import com.google.android.material.chip.Chip
 
 // TODO: Rename parameter arguments, choose names that match
@@ -29,7 +30,7 @@ class SearchFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    lateinit var mangaViewModel:MangaViewModel
+    lateinit var mangaViewModel: MangaViewModel
     lateinit var binding:FragmentSearchBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +69,7 @@ class SearchFragment : Fragment() {
             binding.searchResultsRecyclerView.layoutManager=LinearLayoutManager(requireContext())
             binding.searchResultsRecyclerView.adapter=SearchedMangaAdapter(searchedMangaList){
                     manga->
-                val intent= Intent(requireContext(),MangaPage::class.java)
+                val intent= Intent(requireContext(), MangaPage::class.java)
                     .apply {
                         putExtra("Manga Id",manga.id)
                         putExtra("Manga Name",manga.name)
@@ -101,7 +102,7 @@ class SearchFragment : Fragment() {
             binding.searchResultsRecyclerView.layoutManager=LinearLayoutManager(requireContext())
             binding.searchResultsRecyclerView.adapter=SearchedMangaAdapter(searchedMangaList){
                     manga->
-                val intent= Intent(requireContext(),MangaPage::class.java)
+                val intent= Intent(requireContext(), MangaPage::class.java)
                     .apply {
                         putExtra("Manga Id",manga.id)
                         putExtra("Manga Name",manga.name)

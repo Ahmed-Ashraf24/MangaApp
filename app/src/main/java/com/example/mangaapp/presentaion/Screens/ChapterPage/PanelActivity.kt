@@ -1,8 +1,7 @@
-package com.example.mangaapp.presentaion.Screens
+package com.example.mangaapp.presentaion.Screens.ChapterPage
 
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -10,12 +9,12 @@ import com.bumptech.glide.Glide
 import com.example.mangaapp.Domain.Entity.Chapter
 import com.example.mangaapp.R
 import com.example.mangaapp.databinding.ActivityPanelBinding
-import com.example.mangaapp.presentaion.ViewModels.MangaViewModel
+import com.example.mangaapp.presentaion.ViewModels.MangaAndChaptersViewModel.MangaViewModel
 
 class PanelActivity : AppCompatActivity() {
     lateinit var binding: ActivityPanelBinding
     val panelsURL=ArrayList<String>()
-    val mangaViewModel=MangaViewModel()
+    val mangaViewModel= MangaViewModel()
     private var panelIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,31 +1,23 @@
-package com.example.mangaapp.presentaion.Screens
+package com.example.mangaapp.presentaion.Screens.theMainScreen
 
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.example.mangaapp.Domain.Entity.User
 import com.example.mangaapp.R
 import com.example.mangaapp.databinding.ActivityMainScreenBinding
-import com.example.mangaapp.presentaion.ViewModels.MangaViewModel
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.launch
 
-class MainScreen : AppCompatActivity() {
+class MainScreenActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainScreenBinding
-    val mangaViewModel=MangaViewModel()
     lateinit var user:User
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -60,8 +52,9 @@ class MainScreen : AppCompatActivity() {
             true
         }
         binding.backButton.setOnClickListener {
-
             binding.editTextSearch.clearFocus()
+            binding.backButton.visibility = View.GONE
+
         }
         binding.editTextSearch.setOnFocusChangeListener { view, hasFocus ->
             if (hasFocus) {

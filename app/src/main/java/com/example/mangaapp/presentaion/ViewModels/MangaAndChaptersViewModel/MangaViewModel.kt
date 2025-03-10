@@ -1,4 +1,4 @@
-package com.example.mangaapp.presentaion.ViewModels
+package com.example.mangaapp.presentaion.ViewModels.MangaAndChaptersViewModel
 
 import android.util.Log
 import androidx.lifecycle.LiveData

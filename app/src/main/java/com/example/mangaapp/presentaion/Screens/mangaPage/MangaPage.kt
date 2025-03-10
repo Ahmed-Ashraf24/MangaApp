@@ -1,26 +1,25 @@
-package com.example.mangaapp.presentaion.Screens
+package com.example.mangaapp.presentaion.Screens.mangaPage
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.example.mangaapp.Domain.Entity.Chapter
 import com.example.mangaapp.Domain.Entity.Manga
 import com.example.mangaapp.R
 import com.example.mangaapp.Utilities.UIAdapters.ChapterAdapter
 import com.example.mangaapp.databinding.ActivityMangaPageBinding
-import com.example.mangaapp.presentaion.ViewModels.MangaViewModel
+import com.example.mangaapp.presentaion.Screens.ChapterPage.PanelActivity
+import com.example.mangaapp.presentaion.ViewModels.MangaAndChaptersViewModel.MangaViewModel
 
 class MangaPage : AppCompatActivity() {
     lateinit var binding: ActivityMangaPageBinding
-    val mangaViewModel=MangaViewModel()
+    val mangaViewModel= MangaViewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manga_page)
@@ -76,7 +75,7 @@ class MangaPage : AppCompatActivity() {
             Log.d("Chapter data",chapterList.toString())
             binding.chapterList.layoutManager= GridLayoutManager(this, 4)
             binding.chapterList.adapter= ChapterAdapter(chapterList){ chapter ->
-                val intent= Intent(this,PanelActivity::class.java)
+                val intent= Intent(this, PanelActivity::class.java)
                     .apply {
                         putExtra("Chapter Name",chapter.chapterName)
                         putExtra("Chapter Id" ,chapter.chapterId)

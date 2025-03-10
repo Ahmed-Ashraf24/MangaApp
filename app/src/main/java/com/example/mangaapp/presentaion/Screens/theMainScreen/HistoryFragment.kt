@@ -1,4 +1,4 @@
-package com.example.mangaapp.presentaion.Screens
+package com.example.mangaapp.presentaion.Screens.theMainScreen
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,10 +10,10 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mangaapp.Domain.Entity.Manga
-import com.example.mangaapp.R
 import com.example.mangaapp.Utilities.UIAdapters.HistoryAdapter
 import com.example.mangaapp.databinding.FragmentHistoryBinding
-import com.example.mangaapp.presentaion.ViewModels.MangaViewModel
+import com.example.mangaapp.presentaion.Screens.mangaPage.MangaPage
+import com.example.mangaapp.presentaion.ViewModels.MangaAndChaptersViewModel.MangaViewModel
 import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
@@ -32,7 +32,7 @@ class HistoryFragment : Fragment() {
     private var param2: String? = null
 
     lateinit var binding:FragmentHistoryBinding
-    val mangaViewModel=MangaViewModel()
+    val mangaViewModel= MangaViewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -52,22 +52,37 @@ class HistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val mangaDumpData=ArrayList<Manga>()
-        val user=(activity as? MainScreen)!!.user
+        val user=(activity as? MainScreenActivity)!!.user
+        val activityViews=(activity as? MainScreenActivity)!!.binding
         lifecycleScope.launch {
             Log.d("user after loging in in history ",user.toString())
 
             user!!.histManga.forEach {
                 mangaViewModel.getMangaFromIdForHistory(it)
+                mangaViewModel.isLoading.observe(viewLifecycleOwner){isLoading->
+                    if(isLoading){
+                        activityViews.editTextSearch.isEnabled = false
+                        activityViews.editTextSearch.isFocusable = false
+                        activityViews.editTextSearch.isFocusableInTouchMode = false
+                        for (i in 0 until activityViews.bottomNavigationView.menu.size()) {
+                            activityViews.bottomNavigationView.menu.getItem(i).isEnabled = false
+                        }
+                        binding.loadingSpinner.visibility=View.VISIBLE
+                    }
+                    else{
+                        activityViews.editTextSearch.isEnabled = true
+                        activityViews.editTextSearch.isFocusable = true
+                        activityViews.editTextSearch.isFocusableInTouchMode = true
+                        for (i in 0 until activityViews.bottomNavigationView.menu.size()) {
+                            activityViews.bottomNavigationView.menu.getItem(i).isEnabled = true
+                        }
+                        binding.loadingSpinner.visibility=View.GONE
+
+                    }
+                }
 
             }
 
-            mangaViewModel.isLoading.observe(viewLifecycleOwner){isLoading->
-                if(isLoading){
-                }
-                else{
-                }
-
-            }
             mangaViewModel.histMangaList.observe(viewLifecycleOwner){historyList->
 
                 Log.d("History manga list siza from fragment ",historyList.size.toString())

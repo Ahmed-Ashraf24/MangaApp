@@ -1,4 +1,4 @@
-package com.example.mangaapp.presentaion.Screens
+package com.example.mangaapp.presentaion.Screens.theMainScreen
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,10 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.mangaapp.R
 import com.example.mangaapp.databinding.FragmentSettingsBinding
 import com.example.mangaapp.presentaion.Screens.Auth.MainActivity
-import com.example.mangaapp.presentaion.ViewModels.Auth.LogInViewModel
 import com.example.mangaapp.presentaion.ViewModels.Auth.LogoutViewModel
 
 // TODO: Rename parameter arguments, choose names that match
@@ -41,20 +39,20 @@ class SettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        (activity as? MainScreen)!!.binding.editTextSearch.visibility=View.GONE
+        (activity as? MainScreenActivity)!!.binding.editTextSearch.visibility=View.GONE
 
         binding=FragmentSettingsBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onDestroy() {
-        (activity as? MainScreen)!!.binding.editTextSearch.visibility=View.VISIBLE
+        (activity as? MainScreenActivity)!!.binding.editTextSearch.visibility=View.VISIBLE
 
         super.onDestroy()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val user=(activity as? MainScreen)!!.user
+        val user=(activity as? MainScreenActivity)!!.user
         binding.settingsEmail.text=user.email
         binding.settingsUsername.text=user.name
         binding.logout.setOnClickListener {

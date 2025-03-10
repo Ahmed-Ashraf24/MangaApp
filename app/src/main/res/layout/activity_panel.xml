@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".presentaion.Screens.PanelActivity"
+    tools:context=".presentaion.Screens.ChapterPage.PanelActivity"
     android:id="@+id/panel_activity"
     android:background="@android:color/black">
 

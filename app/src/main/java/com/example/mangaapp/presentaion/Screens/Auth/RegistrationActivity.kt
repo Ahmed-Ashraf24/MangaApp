@@ -9,9 +9,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import com.example.mangaapp.Data.Models.DataBaseModel.UserEntity
+import com.example.mangaapp.Domain.Entity.User
 import com.example.mangaapp.R
 import com.example.mangaapp.databinding.ActivityRegistrationBinding
-import com.example.mangaapp.presentaion.Screens.MainScreen
+import com.example.mangaapp.presentaion.Screens.theMainScreen.MainScreenActivity
 import com.example.mangaapp.presentaion.ViewModels.Auth.SignUpViewModel
 
 class RegistrationActivity : AppCompatActivity() {
@@ -57,8 +58,8 @@ class RegistrationActivity : AppCompatActivity() {
                             )
                         )
                     ) {
-                        val screenIntent = Intent(this, MainScreen::class.java).apply {
-                            putExtra("name", nameEditText.text.toString())
+                        val screenIntent = Intent(this, MainScreenActivity::class.java).apply {
+                            putExtra("User", User(name = nameEditText.text.toString()!!, email = emailEditText.text.toString(), favManga = emptyList(), histManga = emptyList()))
                         }
                         startActivity(screenIntent)
                     } else {

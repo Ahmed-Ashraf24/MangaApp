@@ -1,4 +1,4 @@
-package com.example.mangaapp.presentaion.Screens
+package com.example.mangaapp.presentaion.Screens.theMainScreen
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -10,14 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.mangaapp.Domain.Entity.Manga
-import com.example.mangaapp.R
 import com.example.mangaapp.Utilities.UIAdapters.HistoryAdapter
 import com.example.mangaapp.databinding.FragmentFavoritBinding
+import com.example.mangaapp.presentaion.Screens.mangaPage.MangaPage
 import com.example.mangaapp.presentaion.ViewModels.Auth.LogInViewModel
-import com.example.mangaapp.presentaion.ViewModels.MangaViewModel
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
+import com.example.mangaapp.presentaion.ViewModels.MangaAndChaptersViewModel.MangaViewModel
 import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
@@ -36,7 +33,7 @@ class FavoritFragment : Fragment() {
     private var param2: String? = null
     lateinit var binding:FragmentFavoritBinding
     val logInViewModel=LogInViewModel()
-    val mangaViewModel=MangaViewModel()
+    val mangaViewModel= MangaViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +54,7 @@ class FavoritFragment : Fragment() {
 
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val user=(activity as? MainScreen)!!.user
+        val user=(activity as? MainScreenActivity)!!.user
 
             lifecycleScope.launch {
                 Log.d("user after loging in ",user.toString())
@@ -67,17 +64,33 @@ class FavoritFragment : Fragment() {
                       mangaViewModel.getMangaFromId(it)
                         Log.d("favmanga after loging in in async ",it)
 
+                    mangaViewModel.isLoading.observe(viewLifecycleOwner){isLoading->
+                        val activityViews=(activity as? MainScreenActivity)!!.binding
+
+                        if(isLoading){
+                            binding.loadingSpinner.visibility=View.VISIBLE
+
+                            activityViews.editTextSearch.isEnabled = false
+                            activityViews.editTextSearch.isFocusable = false
+                            activityViews.editTextSearch.isFocusableInTouchMode = false
+                            for (i in 0 until activityViews.bottomNavigationView.menu.size()) {
+                                activityViews.bottomNavigationView.menu.getItem(i).isEnabled = false
+                        }
+                        }
+                        else{
+                            binding.loadingSpinner.visibility=View.GONE
+
+                            activityViews.editTextSearch.isEnabled = true
+                            activityViews.editTextSearch.isFocusable = true
+                            activityViews.editTextSearch.isFocusableInTouchMode = true
+                            for (i in 0 until activityViews.bottomNavigationView.menu.size()) {
+                                activityViews.bottomNavigationView.menu.getItem(i).isEnabled = true
+                            }
+                        }
+
+                    }
                 }
 
-                mangaViewModel.isLoading.observe(viewLifecycleOwner){isLoading->
-                    if(isLoading){
-                        binding.loadingSpinner.visibility=View.VISIBLE
-                    }
-                    else{
-                        binding.loadingSpinner.visibility=View.GONE
-                    }
-
-                }
                 mangaViewModel.favMangaList.observe(viewLifecycleOwner){favMangaList->
 
                     Log.d("Fav manga list siza from fragment ",favMangaList.size.toString())

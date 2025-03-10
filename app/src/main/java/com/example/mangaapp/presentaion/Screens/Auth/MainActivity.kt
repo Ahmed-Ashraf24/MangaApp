@@ -2,25 +2,16 @@ package com.example.mangaapp.presentaion.Screens.Auth
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import com.example.mangaapp.R
 import com.example.mangaapp.Utilities.Constants
 import com.example.mangaapp.databinding.ActivityMainBinding
-import com.example.mangaapp.presentaion.Screens.MainScreen
+import com.example.mangaapp.presentaion.Screens.theMainScreen.MainScreenActivity
 import com.example.mangaapp.presentaion.ViewModels.Auth.LogInViewModel
-import com.example.mangaapp.presentaion.ViewModels.MangaViewModel
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
     val loginViewModel = LogInViewModel()
@@ -73,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                         result.fold(
                             onSuccess = { user ->
 
-                                    val intent = Intent(this@MainActivity, MainScreen::class.java).apply {
+                                    val intent = Intent(this@MainActivity, MainScreenActivity::class.java).apply {
                                         putExtra("User",user)
                                     }
                                     startActivity(intent)

@@ -17,10 +17,10 @@
         android:theme="@style/Theme.MangaApp"
         tools:targetApi="31">
         <activity
-            android:name=".presentaion.Screens.PanelActivity"
+            android:name=".presentaion.Screens.ChapterPage.PanelActivity"
             android:exported="false" />
         <activity
-            android:name=".presentaion.Screens.MangaPage"
+            android:name=".presentaion.Screens.mangaPage.MangaPage"
             android:exported="false" />
 
         <meta-data
@@ -28,7 +28,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".presentaion.Screens.MainScreen"
+            android:name=".presentaion.Screens.theMainScreen.MainScreenActivity"
             android:exported="true"
             >
         </activity>
