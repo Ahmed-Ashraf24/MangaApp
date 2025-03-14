@@ -1,18 +1,19 @@
-package com.example.mangaapp.presentaion.Screens.theMainScreen
+package com.example.mangaapp.presentaion.Screens.MainScreen.History
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mangaapp.Domain.Entity.Manga
+import com.example.mangaapp.R
 import com.example.mangaapp.Utilities.UIAdapters.HistoryAdapter
 import com.example.mangaapp.databinding.FragmentHistoryBinding
-import com.example.mangaapp.presentaion.Screens.mangaPage.MangaPage
+import com.example.mangaapp.presentaion.Screens.mangaPage.MangaPageFragment
+import com.example.mangaapp.presentaion.Screens.MainScreen.MainScreenActivity
 import com.example.mangaapp.presentaion.ViewModels.MangaAndChaptersViewModel.MangaViewModel
 import kotlinx.coroutines.launch
 
@@ -31,8 +32,8 @@ class HistoryFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    lateinit var binding:FragmentHistoryBinding
-    val mangaViewModel= MangaViewModel()
+    lateinit var binding: FragmentHistoryBinding
+    private lateinit var mangaViewModel: MangaViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -42,41 +43,37 @@ class HistoryFragment : Fragment() {
     }
 
     override fun onCreateView(
+
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding=FragmentHistoryBinding.inflate(layoutInflater)
+        binding= FragmentHistoryBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        mangaViewModel = (activity as? MainScreenActivity)!!.mangaViewModel
         val mangaDumpData=ArrayList<Manga>()
         val user=(activity as? MainScreenActivity)!!.user
         val activityViews=(activity as? MainScreenActivity)!!.binding
         lifecycleScope.launch {
-            Log.d("user after loging in in history ",user.toString())
+            Log.d("user after loging in in history ", user.toString())
 
             user!!.histManga.forEach {
                 mangaViewModel.getMangaFromIdForHistory(it)
                 mangaViewModel.isLoading.observe(viewLifecycleOwner){isLoading->
                     if(isLoading){
-                        activityViews.editTextSearch.isEnabled = false
-                        activityViews.editTextSearch.isFocusable = false
-                        activityViews.editTextSearch.isFocusableInTouchMode = false
                         for (i in 0 until activityViews.bottomNavigationView.menu.size()) {
                             activityViews.bottomNavigationView.menu.getItem(i).isEnabled = false
                         }
-                        binding.loadingSpinner.visibility=View.VISIBLE
+                        binding.loadingSpinner.visibility= View.VISIBLE
                     }
                     else{
-                        activityViews.editTextSearch.isEnabled = true
-                        activityViews.editTextSearch.isFocusable = true
-                        activityViews.editTextSearch.isFocusableInTouchMode = true
                         for (i in 0 until activityViews.bottomNavigationView.menu.size()) {
                             activityViews.bottomNavigationView.menu.getItem(i).isEnabled = true
                         }
-                        binding.loadingSpinner.visibility=View.GONE
+                        binding.loadingSpinner.visibility= View.GONE
 
                     }
                 }
@@ -85,20 +82,16 @@ class HistoryFragment : Fragment() {
 
             mangaViewModel.histMangaList.observe(viewLifecycleOwner){historyList->
 
-                Log.d("History manga list siza from fragment ",historyList.size.toString())
+                Log.d("History manga list siza from fragment ", historyList.size.toString())
 
-                val adapter = HistoryAdapter(historyList) {manga->
-                    val intent = Intent(requireContext(), MangaPage::class.java)
-                        .apply {
-                            putExtra("Manga Id", manga.id)
-                            putExtra("Manga Name", manga.name)
-                            putExtra("Manga Description", manga.description)
-                            putExtra("Manga Image", manga.imageUrl)
-                            putExtra("Manga genres", manga.genres)
-                        }
-                    startActivity(intent)
+                val adapter = HistoryAdapter(historyList) { manga ->
+                    (activity as? MainScreenActivity)!!.selectedManga = manga
+                    parentFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, MangaPageFragment())
+                        .addToBackStack(null)
+                        .commit()
                 }
-        binding.historyRecycelrview.layoutManager=LinearLayoutManager(requireContext())
+        binding.historyRecycelrview.layoutManager= LinearLayoutManager(requireContext())
         binding.historyRecycelrview.adapter=adapter
                 binding.historyRecycelrview.adapter!!.notifyDataSetChanged()
 

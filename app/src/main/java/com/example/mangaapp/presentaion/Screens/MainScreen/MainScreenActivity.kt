@@ -1,24 +1,31 @@
-package com.example.mangaapp.presentaion.Screens.theMainScreen
+package com.example.mangaapp.presentaion.Screens.MainScreen
 
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.text.InputType
-import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import com.example.mangaapp.Domain.Entity.Manga
 import com.example.mangaapp.Domain.Entity.User
 import com.example.mangaapp.R
 import com.example.mangaapp.databinding.ActivityMainScreenBinding
+import com.example.mangaapp.presentaion.Screens.mangaPage.MangaPageFragment
+import com.example.mangaapp.presentaion.Screens.MainScreen.Favorite.FavoritFragment
+import com.example.mangaapp.presentaion.Screens.MainScreen.History.HistoryFragment
+import com.example.mangaapp.presentaion.Screens.MainScreen.Home.MainFragment
+import com.example.mangaapp.presentaion.Screens.MainScreen.Setting.SettingsFragment
+import com.example.mangaapp.presentaion.ViewModels.MangaAndChaptersViewModel.MangaViewModel
 
+@Suppress("DEPRECATION")
 class MainScreenActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainScreenBinding
     lateinit var user:User
+     var selectedManga: Manga=Manga("","","","","")
+    val mangaViewModel=MangaViewModel()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +36,8 @@ class MainScreenActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        Toast.makeText(this,"This app sources its content from the MangaDex API",Toast.LENGTH_LONG).show()
+
         @Suppress("DEPRECATION")
         user= intent.getParcelableExtra<User>("User")!!
         binding = ActivityMainScreenBinding.inflate(layoutInflater)
@@ -51,44 +60,26 @@ class MainScreenActivity : AppCompatActivity() {
                 .commit()
             true
         }
-        binding.backButton.setOnClickListener {
-            binding.editTextSearch.clearFocus()
-            binding.backButton.visibility = View.GONE
 
-        }
-        binding.editTextSearch.setOnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                binding.backButton.visibility = View.VISIBLE
-                binding.editTextSearch.apply {
-                    imeOptions = EditorInfo.IME_ACTION_SEARCH
-                    inputType = InputType.TYPE_CLASS_TEXT
-                }
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, SearchFragment())
-                    .addToBackStack(null)
-                    .commit()
-            } else {
-                binding.editTextSearch.text.clear()
-                binding.backButton.visibility = View.GONE
+
+    }
+    override fun onBackPressed() {
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+        when (currentFragment) {
+            is MangaPageFragment -> {
+
+                supportFragmentManager.popBackStack("SearchFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+
+            }
+            is MainFragment -> {
+                currentFragment.clearSearchUI()
                 supportFragmentManager.popBackStack()
             }
-
-        }
-        binding.editTextSearch.setOnEditorActionListener { v, actionId, event ->
-
-            val searchText = binding.editTextSearch.text.toString().trim()
-            val searchFragment =
-                supportFragmentManager.findFragmentById(R.id.fragment_container) as? SearchFragment
-            if (searchText.isNotEmpty()) {
-                searchFragment!!.displayTheSearchedManga(searchText)
+            else -> {
+                super.onBackPressed()
             }
-            val inputMethodManger =
-                this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManger.hideSoftInputFromWindow(v.windowToken, 0)
-
-
         }
-
     }
 
 }
