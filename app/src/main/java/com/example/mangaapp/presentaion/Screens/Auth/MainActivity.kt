@@ -10,7 +10,7 @@ import androidx.core.view.isVisible
 import com.example.mangaapp.R
 import com.example.mangaapp.Utilities.Constants
 import com.example.mangaapp.databinding.ActivityMainBinding
-import com.example.mangaapp.presentaion.Screens.theMainScreen.MainScreenActivity
+import com.example.mangaapp.presentaion.Screens.MainScreen.MainScreenActivity
 import com.example.mangaapp.presentaion.ViewModels.Auth.LogInViewModel
 
 class MainActivity : AppCompatActivity() {

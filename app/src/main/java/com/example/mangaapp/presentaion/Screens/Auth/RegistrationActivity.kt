@@ -12,7 +12,7 @@ import com.example.mangaapp.Data.Models.DataBaseModel.UserEntity
 import com.example.mangaapp.Domain.Entity.User
 import com.example.mangaapp.R
 import com.example.mangaapp.databinding.ActivityRegistrationBinding
-import com.example.mangaapp.presentaion.Screens.theMainScreen.MainScreenActivity
+import com.example.mangaapp.presentaion.Screens.MainScreen.MainScreenActivity
 import com.example.mangaapp.presentaion.ViewModels.Auth.SignUpViewModel
 
 class RegistrationActivity : AppCompatActivity() {
