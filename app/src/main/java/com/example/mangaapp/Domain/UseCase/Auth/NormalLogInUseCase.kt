@@ -1,4 +1,4 @@
-package com.example.mangaapp.Domain.UseCase
+package com.example.mangaapp.Domain.UseCase.Auth
 
 import com.example.mangaapp.Data.RepoImp.NormalLogInImpl
 import com.example.mangaapp.Domain.Entity.User

@@ -4,9 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mangaapp.Domain.Entity.Manga
 import com.example.mangaapp.Domain.Entity.User
-import com.example.mangaapp.Domain.UseCase.RemoteLogInUseCase
+import com.example.mangaapp.Domain.UseCase.Auth.RemoteLogInUseCase
 import kotlinx.coroutines.launch
 
 class LogInViewModel : ViewModel() {

@@ -1,14 +1,13 @@
-package com.example.mangaapp.Domain.UseCase
+package com.example.mangaapp.Domain.UseCase.Manga
 
 import com.example.mangaapp.Data.RepoImp.MangaRepositoryImpl
 import com.example.mangaapp.Domain.Entity.Manga
 import com.example.mangaapp.Domain.RepoInterface.MangaRepository
 
-class PopularMangaUseCase {
-    private val popularManga: MangaRepository = MangaRepositoryImpl()
+class LatestMangaUseCase  {
+    private val latestManga:MangaRepository=MangaRepositoryImpl()
     suspend fun getAllManga():ArrayList<Manga>{
 
-        return popularManga.getPopularManga()
+        return latestManga.getLatestManga()
     }
-
 }

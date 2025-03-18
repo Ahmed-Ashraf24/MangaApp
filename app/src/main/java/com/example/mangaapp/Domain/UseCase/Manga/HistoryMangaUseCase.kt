@@ -1,10 +1,8 @@
-package com.example.mangaapp.Domain.UseCase
+package com.example.mangaapp.Domain.UseCase.Manga
 
 import com.example.mangaapp.Data.RepoImp.MangaRepositoryImpl
-import com.example.mangaapp.Data.RepoImp.RemoteFavoriteImpl
 import com.example.mangaapp.Data.RepoImp.RemoteHistoryImpl
 import com.example.mangaapp.Domain.Entity.Manga
-import com.example.mangaapp.Domain.RepoInterface.FavoriteRepo
 import com.example.mangaapp.Domain.RepoInterface.HistoryRepo
 import com.example.mangaapp.Domain.RepoInterface.MangaRepository
 

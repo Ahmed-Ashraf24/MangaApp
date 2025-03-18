@@ -1,4 +1,4 @@
-package com.example.mangaapp.Domain.UseCase
+package com.example.mangaapp.Domain.UseCase.Manga
 
 import com.example.mangaapp.Data.RepoImp.MangaRepositoryImpl
 import com.example.mangaapp.Data.RepoImp.RemoteFavoriteImpl

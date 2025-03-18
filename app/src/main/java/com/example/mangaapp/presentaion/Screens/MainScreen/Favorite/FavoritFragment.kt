@@ -15,7 +15,7 @@ import com.example.mangaapp.databinding.FragmentFavoritBinding
 import com.example.mangaapp.presentaion.Screens.mangaPage.MangaPageFragment
 import com.example.mangaapp.presentaion.Screens.MainScreen.MainScreenActivity
 import com.example.mangaapp.presentaion.ViewModels.Auth.LogInViewModel
-import com.example.mangaapp.presentaion.ViewModels.MangaAndChaptersViewModel.MangaViewModel
+import com.example.mangaapp.presentaion.ViewModels.Manga.MangaViewModel
 import kotlinx.coroutines.launch
 
 private const val ARG_PARAM1 = "param1"

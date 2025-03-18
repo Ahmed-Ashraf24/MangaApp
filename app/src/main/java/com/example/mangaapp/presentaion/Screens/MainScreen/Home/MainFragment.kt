@@ -17,7 +17,7 @@ import com.example.mangaapp.Utilities.UIAdapters.MangaRecyclerAdapter
 import com.example.mangaapp.databinding.FragmentMainBinding
 import com.example.mangaapp.presentaion.Screens.mangaPage.MangaPageFragment
 import com.example.mangaapp.presentaion.Screens.MainScreen.MainScreenActivity
-import com.example.mangaapp.presentaion.ViewModels.MangaAndChaptersViewModel.MangaViewModel
+import com.example.mangaapp.presentaion.ViewModels.Manga.MangaViewModel
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 /**

@@ -3,9 +3,7 @@ package com.example.mangaapp.presentaion.ViewModels.Auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.mangaapp.Data.Models.DataBaseModel.UserEntity
-import com.example.mangaapp.Domain.UseCase.RemoteLogoutUseCase
-import com.example.mangaapp.Utilities.Constants
+import com.example.mangaapp.Domain.UseCase.Auth.RemoteLogoutUseCase
 
 class LogoutViewModel : ViewModel() {
     private val _logoutState = MutableLiveData<Result<Unit>>()

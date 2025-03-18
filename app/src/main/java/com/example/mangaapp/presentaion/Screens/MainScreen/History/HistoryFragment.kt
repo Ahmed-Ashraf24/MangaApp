@@ -14,7 +14,7 @@ import com.example.mangaapp.Utilities.UIAdapters.HistoryAdapter
 import com.example.mangaapp.databinding.FragmentHistoryBinding
 import com.example.mangaapp.presentaion.Screens.mangaPage.MangaPageFragment
 import com.example.mangaapp.presentaion.Screens.MainScreen.MainScreenActivity
-import com.example.mangaapp.presentaion.ViewModels.MangaAndChaptersViewModel.MangaViewModel
+import com.example.mangaapp.presentaion.ViewModels.Manga.MangaViewModel
 import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
