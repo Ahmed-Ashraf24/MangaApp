@@ -22,7 +22,6 @@ class RegistrationActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_registration)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.Register)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -59,7 +58,7 @@ class RegistrationActivity : AppCompatActivity() {
                         )
                     ) {
                         val screenIntent = Intent(this, MainScreenActivity::class.java).apply {
-                            putExtra("User", User(name = nameEditText.text.toString()!!, email = emailEditText.text.toString(), favManga = emptyList(), histManga = emptyList()))
+                            putExtra("User", User(name = nameEditText.text.toString()!!, email = emailEditText.text.toString(), favManga = emptyList(), histManga = emptyList(), age = ageEditText.text.toString().toInt()))
                         }
                         startActivity(screenIntent)
                     } else {

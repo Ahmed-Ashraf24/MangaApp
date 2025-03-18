@@ -14,7 +14,8 @@ import com.example.mangaapp.Utilities.UIAdapters.ChapterAdapter
 import com.example.mangaapp.databinding.FragmentMangaPageBinding
 import com.example.mangaapp.presentaion.Screens.ChapterPage.PanelActivity
 import com.example.mangaapp.presentaion.Screens.MainScreen.MainScreenActivity
-import com.example.mangaapp.presentaion.ViewModels.MangaAndChaptersViewModel.MangaViewModel
+import com.example.mangaapp.presentaion.ViewModels.Chapter.ChapterViewModel
+import com.example.mangaapp.presentaion.ViewModels.Manga.MangaViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -31,7 +32,9 @@ class MangaPageFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     lateinit var binding:FragmentMangaPageBinding
+    val chapterViewModel= ChapterViewModel()
     val mangaViewModel=MangaViewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -59,17 +62,21 @@ class MangaPageFragment : Fragment() {
         binding.buttonFavorite.setOnClickListener {
 
             mangaViewModel.addMangaToFavList(
-            selectedManga
+            selectedManga!!
             )
             mangaViewModel.updateFavMangaList(
-                selectedManga
+                selectedManga!!
             )
         }
-        Glide.with(requireContext()).load(selectedManga.imageUrl)
+        Glide.with(requireContext()).load(selectedManga!!.imageUrl)
             .into(binding.mangaCover)
+
+        binding.pageTitle.text=selectedManga.name
+        binding.mangaGenres.text=selectedManga.genres
+        binding.mangaDescription.text=selectedManga.description
         binding.chapterList.layoutManager= LinearLayoutManager(requireContext())
-        mangaViewModel.fetchMangaChapters(selectedManga.id!!)
-        mangaViewModel.isLoading.observe(viewLifecycleOwner){isLoading->
+        chapterViewModel.fetchMangaChapters(selectedManga.id!!)
+        chapterViewModel.isLoading.observe(viewLifecycleOwner){ isLoading->
             if (isLoading) {
                 binding.blurOverlay.visibility= View.VISIBLE
                 binding.progressSpinner.visibility= View.VISIBLE
@@ -82,10 +89,10 @@ class MangaPageFragment : Fragment() {
             }
         }
         binding.continueButton.setOnClickListener {
-            mangaViewModel.fetchMoreMangaChapters(selectedManga.id)
+            chapterViewModel.fetchMoreMangaChapters(selectedManga.id)
         }
 
-        mangaViewModel.chapterList.observe(viewLifecycleOwner){ chapterList->
+        chapterViewModel.chapterList.observe(viewLifecycleOwner){ chapterList->
             Log.d("Chapter data",chapterList.toString())
             binding.chapterList.layoutManager= GridLayoutManager(requireContext(), 4)
             binding.chapterList.adapter= ChapterAdapter(chapterList){ chapter ->
@@ -101,7 +108,7 @@ class MangaPageFragment : Fragment() {
 
 
         }
-        mangaViewModel.isChaptersCompleted.observe(viewLifecycleOwner){isChaptersCompleted->
+        chapterViewModel.isChaptersCompleted.observe(viewLifecycleOwner){ isChaptersCompleted->
             if(isChaptersCompleted){
                 binding.continueButton.isEnabled=false
                 binding.continueButton.visibility=View.GONE
@@ -109,6 +116,7 @@ class MangaPageFragment : Fragment() {
 
         }
     }
+
 
     companion object {
         /**

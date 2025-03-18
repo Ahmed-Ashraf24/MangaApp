@@ -7,13 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.mangaapp.Domain.Entity.Manga
 import com.example.mangaapp.R
 import com.example.mangaapp.Utilities.Constants
 import com.example.mangaapp.Utilities.UIAdapters.SearchedMangaAdapter
 import com.example.mangaapp.databinding.FragmentSearchBinding
 import com.example.mangaapp.presentaion.Screens.mangaPage.MangaPageFragment
 import com.example.mangaapp.presentaion.Screens.MainScreen.MainScreenActivity
-import com.example.mangaapp.presentaion.ViewModels.MangaAndChaptersViewModel.MangaViewModel
+import com.example.mangaapp.presentaion.ViewModels.Manga.MangaViewModel
 import com.google.android.material.chip.Chip
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -39,6 +40,7 @@ class SearchFragment : Fragment() {
     override fun onDestroy() {
        val mainFragment= parentFragmentManager.findFragmentById(R.id.fragment_container) as MainFragment
         mainFragment.binding.editTextSearch.text.clear()
+        binding.searchResultsRecyclerView.adapter=SearchedMangaAdapter(ArrayList<Manga>()){}
         super.onDestroy()
     }
 

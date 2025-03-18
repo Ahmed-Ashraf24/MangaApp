@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.mangaapp.Data.Models.DataBaseModel.UserEntity
-import com.example.mangaapp.Domain.UseCase.RemoteSignUpUseCase
+import com.example.mangaapp.Domain.UseCase.Auth.RemoteSignUpUseCase
 import com.example.mangaapp.Utilities.Constants
 
 class SignUpViewModel :ViewModel() {
