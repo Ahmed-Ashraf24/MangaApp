@@ -8,5 +8,6 @@ data class User(
     val name: String,
     val favManga: List<String>,
     val email: String,
-    val histManga: List<String>
+    val histManga: List<String>,
+    val age:Int
 ) : Parcelable
