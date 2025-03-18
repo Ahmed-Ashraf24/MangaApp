@@ -18,13 +18,13 @@ import com.example.mangaapp.presentaion.Screens.MainScreen.Favorite.FavoritFragm
 import com.example.mangaapp.presentaion.Screens.MainScreen.History.HistoryFragment
 import com.example.mangaapp.presentaion.Screens.MainScreen.Home.MainFragment
 import com.example.mangaapp.presentaion.Screens.MainScreen.Setting.SettingsFragment
-import com.example.mangaapp.presentaion.ViewModels.MangaAndChaptersViewModel.MangaViewModel
+import com.example.mangaapp.presentaion.ViewModels.Manga.MangaViewModel
 
 @Suppress("DEPRECATION")
 class MainScreenActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainScreenBinding
     lateinit var user:User
-     var selectedManga: Manga=Manga("","","","","")
+     var selectedManga: Manga?=null
     val mangaViewModel=MangaViewModel()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -70,6 +70,8 @@ class MainScreenActivity : AppCompatActivity() {
             is MangaPageFragment -> {
 
                 supportFragmentManager.popBackStack("SearchFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                super.onBackPressed()
+
 
             }
             is MainFragment -> {
