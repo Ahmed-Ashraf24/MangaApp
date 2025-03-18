@@ -6,8 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
->
+    tools:context=".presentaion.Screens.MainScreen.MainScreenActivity">
 
+    <!-- Back Button -->
     <ImageView
         android:id="@+id/back_button"
         android:layout_width="24dp"
@@ -20,15 +21,12 @@
         android:layout_marginTop="16dp" />
 
     <!-- Title -->
-
-    <!-- Save Button -->
-
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="124dp"
-        android:text="password"
+        android:text="Profile"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -37,11 +35,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
+    <!-- Save Button -->
     <TextView
         android:id="@+id/btnSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="save"
+        android:text="Save"
         android:textColor="#4A90E2"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,87 +48,56 @@
         app:layout_constraintBottom_toBottomOf="@id/tvTitle"
         android:layout_marginTop="16dp" />
 
-    <TextView
-        android:id="@+id/tvCurrentPasswordError"
-        android:layout_width="wrap_content"
+    <!-- Username Input -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputLayoutUsername"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="incorrect_password"
-        android:textColor="@android:color/holo_red_dark"
-        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="24dp" />
-
-    <!-- Current Password Input -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputLayoutCurrentPassword"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:endIconMode="password_toggle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvCurrentPasswordError"
-        android:layout_marginTop="4dp">
+        android:layout_marginTop="24dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etCurrentPassword"
+            android:id="@+id/etUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="current_password"
-            android:inputType="textPassword" />
+            android:hint="Username"
+            android:inputType="textPersonName" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- New Password Input -->
+    <!-- Age Input -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputLayoutNewPassword"
+        android:id="@+id/inputLayoutAge"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:endIconMode="password_toggle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/inputLayoutCurrentPassword"
+        app:layout_constraintTop_toBottomOf="@id/inputLayoutUsername"
         android:layout_marginTop="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etNewPassword"
+            android:id="@+id/etAge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="new_password"
-            android:inputType="textPassword" />
+            android:hint="Age"
+            android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Confirm Password Input -->
+    <!-- Email Input -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputLayoutConfirmPassword"
+        android:id="@+id/inputLayoutEmail"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:endIconMode="password_toggle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/inputLayoutNewPassword"
+        app:layout_constraintTop_toBottomOf="@id/inputLayoutAge"
         android:layout_marginTop="16dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etConfirmPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="confirm_password"
-            android:inputType="textPassword" />
-    </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Password Length Error -->
-    <TextView
-        android:id="@+id/tvPasswordLengthError"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="password_min_length"
-        android:textColor="@android:color/holo_red_dark"
-        android:textSize="12sp"
-        app:layout_constraintTop_toBottomOf="@id/inputLayoutConfirmPassword"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="8dp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
