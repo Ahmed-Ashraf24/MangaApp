@@ -27,5 +27,13 @@ class LocalDataBase: DataBaseClient {
         TODO("Not yet implemented")
     }
 
+    override suspend fun changeUserEmail(email: String) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun changUserPassword(password: String) {
+        TODO("Not yet implemented")
+    }
+
 
 }

@@ -9,6 +9,8 @@ interface DataBaseClient{
  suspend fun addMangaToFav(MangaId:String)
  suspend fun addToHistory(MangaId:String)
  fun logout()
+ suspend fun changeUserEmail(email : String)
+ suspend fun changUserPassword(password: String)
 
 
 }
