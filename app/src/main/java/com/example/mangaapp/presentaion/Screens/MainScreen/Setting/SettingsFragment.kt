@@ -6,9 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.mangaapp.R
 import com.example.mangaapp.databinding.FragmentSettingsBinding
 import com.example.mangaapp.presentaion.Screens.Auth.MainActivity
 import com.example.mangaapp.presentaion.Screens.MainScreen.MainScreenActivity
+import com.example.mangaapp.presentaion.Screens.MainScreen.Setting.Account.AccountFragment
+import com.example.mangaapp.presentaion.Screens.MainScreen.Setting.Profile.ProfileFragment
 import com.example.mangaapp.presentaion.ViewModels.Auth.LogoutViewModel
 
 // TODO: Rename parameter arguments, choose names that match
@@ -58,6 +61,16 @@ class SettingsFragment : Fragment() {
             logoutViewModel.logout()
             val intent= Intent(requireContext(), MainActivity::class.java)
             startActivity(intent)
+        }
+        binding.accountSection.setOnClickListener{
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container,AccountFragment())
+                .commit()
+        }
+        binding.profileSection.setOnClickListener{
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container,ProfileFragment())
+                .commit()
         }
 
     }
