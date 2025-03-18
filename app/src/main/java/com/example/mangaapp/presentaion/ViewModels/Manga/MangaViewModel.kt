@@ -1,22 +1,17 @@
-package com.example.mangaapp.presentaion.ViewModels.MangaAndChaptersViewModel
+package com.example.mangaapp.presentaion.ViewModels.Manga
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mangaapp.Domain.Entity.Chapter
-import com.example.mangaapp.Domain.Entity.ChapterPanels
 import com.example.mangaapp.Domain.Entity.Manga
-import com.example.mangaapp.Domain.UseCase.ChapterPagesUseCase
-import com.example.mangaapp.Domain.UseCase.ChapterUseCase
-import com.example.mangaapp.Domain.UseCase.ContinueChaptersUseCase
-import com.example.mangaapp.Domain.UseCase.FavMangaUseCase
-import com.example.mangaapp.Domain.UseCase.GenreMangaUseCase
-import com.example.mangaapp.Domain.UseCase.HistoryMangaUseCase
-import com.example.mangaapp.Domain.UseCase.LatestMangaUseCase
-import com.example.mangaapp.Domain.UseCase.PopularMangaUseCase
-import com.example.mangaapp.Domain.UseCase.SearchMangaUseCase
+import com.example.mangaapp.Domain.UseCase.Manga.FavMangaUseCase
+import com.example.mangaapp.Domain.UseCase.Manga.GenreMangaUseCase
+import com.example.mangaapp.Domain.UseCase.Manga.HistoryMangaUseCase
+import com.example.mangaapp.Domain.UseCase.Manga.LatestMangaUseCase
+import com.example.mangaapp.Domain.UseCase.Manga.PopularMangaUseCase
+import com.example.mangaapp.Domain.UseCase.Manga.SearchMangaUseCase
 import com.example.mangaapp.Utilities.Constants
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -41,24 +36,12 @@ class MangaViewModel : ViewModel() {
     private val _histMangaList = MutableLiveData<ArrayList<Manga>>()
     val histMangaList: LiveData<ArrayList<Manga>> get() = _histMangaList
 
-
-
-    private val _chapterList = MutableLiveData<ArrayList<Chapter>>()
-    val chapterList: LiveData<ArrayList<Chapter>> get() = _chapterList
-
-    private val _chapterPanelURLList=MutableLiveData<ChapterPanels>()
-    val chapterPanelURLList:LiveData<ChapterPanels> get()=_chapterPanelURLList
-
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage : LiveData<String> get() = _errorMessage
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-    private val _isChaptersCompleted = MutableLiveData<Boolean>()
-    val isChaptersCompleted: LiveData<Boolean> get() = _isChaptersCompleted
-
-     private var offsetCounter = 100
      fun fetchMangaList() {
         viewModelScope.launch {
             _isLoading.value = true
@@ -123,65 +106,7 @@ class MangaViewModel : ViewModel() {
         }
     }
 
-    fun fetchMangaChapters(mangaId: String) {
-        viewModelScope.launch {
-            _isLoading.value = true
-            _isChaptersCompleted.value=false
-            try {
-                val chapterData = ChapterUseCase().getAllChapters(mangaId)
-                Log.d("manga chapter fetched :",chapterData.toString())
-                if(chapterData.size!=100){
-                    _isChaptersCompleted.value=true
-                }
-                _chapterList.value = chapterData
-                Log.d("manga chpater fetched size :",chapterList.value!!.size.toString())
-            } catch (e: Exception) {
-                _errorMessage.value = e.message ?: "Unknown error"
-            } finally {
-                _isLoading.value = false
-            }
-        }
-    }
-    fun fetchMoreMangaChapters(mangaId: String) {
-        viewModelScope.launch {
-            _isLoading.value = true
-            _isChaptersCompleted.value=false
-            try {
-                val currentList = _chapterList.value ?: arrayListOf()
 
-                val chapterData = ContinueChaptersUseCase().getTheRestOfChapters(mangaId,offsetCounter)
-                Log.d("manga chapter fetched :",chapterData.toString())
-                offsetCounter+=100
-                if (chapterData.size!=100){
-                    _isChaptersCompleted.value=true
-                }
-                val updatedList = ArrayList(currentList)
-                updatedList.addAll(chapterData)
-                _chapterList.value=updatedList
-                Log.d("manga chapter fetched size :",chapterList.value!!.size.toString())
-
-            } catch (e: Exception) {
-                _errorMessage.value = e.message ?: "Unknown error"
-            } finally {
-                _isLoading.value = false
-            }
-        }
-    }
-    fun fetchChapterPanels(chapter: Chapter) {
-        viewModelScope.launch {
-            _isLoading.value = true
-            try {
-                val chapterPagesData = ChapterPagesUseCase().getChapterPages(chapter)
-                chapterPagesData.let {
-                    _chapterPanelURLList.value=it
-                }
-            } catch (e: Exception) {
-                _errorMessage.value = e.message ?: "Unknown error"
-            } finally {
-                _isLoading.value = false
-            }
-        }
-    }
     fun addMangaToFavList(manga:Manga){
         viewModelScope.launch {
             _isLoading.value=true
@@ -208,7 +133,7 @@ class MangaViewModel : ViewModel() {
             val currentFavList=_favMangaList.value?: arrayListOf()
             Log.d("fav manga list before any thing",currentFavList.size.toString())
 
-            val manga=FavMangaUseCase().getMangaFromId(mangaId = mangaId)
+            val manga= FavMangaUseCase().getMangaFromId(mangaId = mangaId)
             currentFavList!!.add(manga)
             Log.d(" current fav manga list after adding manga",currentFavList.size.toString())
 
@@ -232,7 +157,7 @@ class MangaViewModel : ViewModel() {
             val currentFavList=_histMangaList.value?: arrayListOf()
             Log.d("fav manga list before any thing",currentFavList.size.toString())
 
-            val manga=HistoryMangaUseCase().getMangaFromId(mangaId = mangaId)
+            val manga= HistoryMangaUseCase().getMangaFromId(mangaId = mangaId)
             currentFavList!!.add(manga)
             Log.d(" current fav manga list after adding manga",currentFavList.size.toString())
 
