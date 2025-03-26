@@ -16,7 +16,7 @@ MangaApp utilizes the following technologies and architectural components:
 
 - **MVVM Architecture**: Separates the app's data layer from the UI layer, promoting a clear separation of concerns.
 - **Clean Architecture**: Ensures a scalable and testable codebase by organizing the project into distinct layers.
-- **Room Database**: Provides offline data caching and management.
+- **Room Database**: Used to store simple user data for local login and registration.
 - **Firebase Authentication**: Manages user authentication securely.
 - **Firestore**: Serves as the primary online data source for manga information.
 - **Retrofit**: Handles network requests to external APIs for additional manga data.
