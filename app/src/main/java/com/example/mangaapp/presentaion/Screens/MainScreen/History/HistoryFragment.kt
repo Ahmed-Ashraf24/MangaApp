@@ -54,30 +54,25 @@ class HistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         mangaViewModel = (activity as? MainScreenActivity)!!.mangaViewModel
-        val mangaDumpData=ArrayList<Manga>()
         val user=(activity as? MainScreenActivity)!!.user
         val activityViews=(activity as? MainScreenActivity)!!.binding
         lifecycleScope.launch {
             Log.d("user after loging in in history ", user.toString())
 
-            user!!.histManga.forEach {
-                mangaViewModel.getMangaFromIdForHistory(it)
-                mangaViewModel.isLoading.observe(viewLifecycleOwner){isLoading->
-                    if(isLoading){
-                        for (i in 0 until activityViews.bottomNavigationView.menu.size()) {
-                            activityViews.bottomNavigationView.menu.getItem(i).isEnabled = false
-                        }
-                        binding.loadingSpinner.visibility= View.VISIBLE
+            mangaViewModel.isLoading.observe(viewLifecycleOwner){isLoading->
+                if(isLoading){
+                    for (i in 0 until activityViews.bottomNavigationView.menu.size()) {
+                        activityViews.bottomNavigationView.menu.getItem(i).isEnabled = false
                     }
-                    else{
-                        for (i in 0 until activityViews.bottomNavigationView.menu.size()) {
-                            activityViews.bottomNavigationView.menu.getItem(i).isEnabled = true
-                        }
-                        binding.loadingSpinner.visibility= View.GONE
-
-                    }
+                    binding.loadingSpinner.visibility= View.VISIBLE
                 }
+                else{
+                    for (i in 0 until activityViews.bottomNavigationView.menu.size()) {
+                        activityViews.bottomNavigationView.menu.getItem(i).isEnabled = true
+                    }
+                    binding.loadingSpinner.visibility= View.GONE
 
+                }
             }
 
             mangaViewModel.histMangaList.observe(viewLifecycleOwner){historyList->

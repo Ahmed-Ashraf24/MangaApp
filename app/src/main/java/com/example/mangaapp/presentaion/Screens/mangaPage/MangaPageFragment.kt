@@ -33,7 +33,6 @@ class MangaPageFragment : Fragment() {
     private var param2: String? = null
     lateinit var binding:FragmentMangaPageBinding
     val chapterViewModel= ChapterViewModel()
-    val mangaViewModel=MangaViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,16 +56,18 @@ class MangaPageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val activityInstance=(activity as? MainScreenActivity)
+        val mangaViewModel=activityInstance!!.mangaViewModel
         activityInstance!!.binding.bottomNavigationView.visibility=View.GONE
         val selectedManga=activityInstance!!.selectedManga
+        if(activityInstance.mangaViewModel.favMangaList.value!!.contains(selectedManga)){
+            binding.buttonFavorite.isEnabled=false
+        }
         binding.buttonFavorite.setOnClickListener {
 
             mangaViewModel.addMangaToFavList(
             selectedManga!!
             )
-            mangaViewModel.updateFavMangaList(
-                selectedManga!!
-            )
+            binding.buttonFavorite.isEnabled=false
         }
         Glide.with(requireContext()).load(selectedManga!!.imageUrl)
             .into(binding.mangaCover)

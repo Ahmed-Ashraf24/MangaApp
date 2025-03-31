@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mangaapp.R
+import com.example.mangaapp.Utilities.UIAdapters.FavMangaAdapter
 import com.example.mangaapp.Utilities.UIAdapters.HistoryAdapter
 import com.example.mangaapp.databinding.FragmentFavoritBinding
 import com.example.mangaapp.presentaion.Screens.mangaPage.MangaPageFragment
@@ -30,7 +31,6 @@ class FavoritFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     lateinit var binding: FragmentFavoritBinding
-    val logInViewModel= LogInViewModel()
     lateinit var mangaViewModel: MangaViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,53 +54,43 @@ class FavoritFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         mangaViewModel = (activity as? MainScreenActivity)!!.mangaViewModel
         val user=(activity as? MainScreenActivity)!!.user
+        val activityViews=(activity as? MainScreenActivity)!!.binding
+        lifecycleScope.launch {
+            Log.d("user after loging in in history ", user.toString())
 
-            lifecycleScope.launch {
-                Log.d("user after loging in ", user.toString())
-
-                user!!.favManga.forEach {
-                    Log.d("favmanga after loging in ", it)
-                      mangaViewModel.getMangaFromId(it)
-                    Log.d("favmanga after loging in in async ", it)
-
-                    mangaViewModel.isLoading.observe(viewLifecycleOwner){isLoading->
-                        val activityViews=(activity as? MainScreenActivity)!!.binding
-
-                        if(isLoading){
-                            binding.loadingSpinner.visibility= View.VISIBLE
-
-                            for (i in 0 until activityViews.bottomNavigationView.menu.size()) {
-                                activityViews.bottomNavigationView.menu.getItem(i).isEnabled = false
-                        }
-                        }
-                        else{
-                            binding.loadingSpinner.visibility= View.GONE
-
-                            for (i in 0 until activityViews.bottomNavigationView.menu.size()) {
-                                activityViews.bottomNavigationView.menu.getItem(i).isEnabled = true
-                            }
-                        }
-
+            mangaViewModel.isLoading.observe(viewLifecycleOwner){isLoading->
+                if(isLoading){
+                    for (i in 0 until activityViews.bottomNavigationView.menu.size()) {
+                        activityViews.bottomNavigationView.menu.getItem(i).isEnabled = false
                     }
+                    binding.loadingSpinner.visibility= View.VISIBLE
                 }
-
-                mangaViewModel.favMangaList.observe(viewLifecycleOwner){favMangaList->
-
-                    Log.d("Fav manga list siza from fragment ", favMangaList.size.toString())
-
-                    val adapter = HistoryAdapter(favMangaList) { manga ->
-                        (activity as? MainScreenActivity)!!.selectedManga = manga
-                        parentFragmentManager.beginTransaction()
-                            .replace(R.id.fragment_container, MangaPageFragment())
-                            .addToBackStack(null)
-                            .commit()
+                else{
+                    for (i in 0 until activityViews.bottomNavigationView.menu.size()) {
+                        activityViews.bottomNavigationView.menu.getItem(i).isEnabled = true
                     }
-                    binding.favoriteRecyclerview.layoutManager =
-                        LinearLayoutManager(requireContext())
-                    binding.favoriteRecyclerview.adapter = adapter
-                    binding.favoriteRecyclerview.adapter!!.notifyDataSetChanged()
+                    binding.loadingSpinner.visibility= View.GONE
+
                 }
             }
+
+            mangaViewModel.favMangaList.observe(viewLifecycleOwner){favMangaList->
+
+                Log.d("fav manga list siza from fragment ", favMangaList.size.toString())
+
+                val adapter = FavMangaAdapter(favMangaList) { manga ->
+                    (activity as? MainScreenActivity)!!.selectedManga = manga
+                    parentFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, MangaPageFragment())
+                        .addToBackStack(null)
+                        .commit()
+                }
+                binding.favoriteRecyclerview.layoutManager= LinearLayoutManager(requireContext())
+                binding.favoriteRecyclerview.adapter=adapter
+                binding.favoriteRecyclerview.adapter!!.notifyDataSetChanged()
+
+            }
+        }
 
 
     }

@@ -2,6 +2,8 @@ package com.example.mangaapp.presentaion.Screens.ChapterPage
 
 import android.os.Bundle
 import android.util.Log
+import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -40,7 +42,9 @@ class PanelActivity : AppCompatActivity() {
         panelsViewModel.chapterPanelURLList.observe(this){panels->
             panelsURL.addAll(panels.chapterPanelsURL)
             if(panelsURL.isNotEmpty()){
-                binding.recyclerView.layoutManager=LinearLayoutManager(this)
+
+                binding.recyclerView.layoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+
                 binding.recyclerView.adapter=PanelAdapter(panelsURL)
 
             }

@@ -67,7 +67,7 @@ dependencies {
     implementation("androidx.cardview:cardview:1.0.0")
     implementation ("com.github.Baseflow:PhotoView:2.2.0")
     implementation ("com.facebook.shimmer:shimmer:0.5.0")
-
+    implementation ("com.otaliastudios:zoomlayout:1.9.0")
     implementation(libs.androidx.recyclerview)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)

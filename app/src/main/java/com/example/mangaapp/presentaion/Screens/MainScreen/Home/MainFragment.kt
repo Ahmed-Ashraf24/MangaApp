@@ -53,7 +53,8 @@ class MainFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        mangaViewModel = (activity as? MainScreenActivity)!!.mangaViewModel
+        val activityInstance=(activity as? MainScreenActivity)!!
+        mangaViewModel = activityInstance.mangaViewModel
         binding.backButton.setOnClickListener {
             binding.editTextSearch.clearFocus()
             binding.backButton.visibility = View.GONE
@@ -175,7 +176,6 @@ class MainFragment : Fragment() {
             println("Error: $errorMessage")
         }
 
-        mangaViewModel.fetchMangaList()
 
 
 

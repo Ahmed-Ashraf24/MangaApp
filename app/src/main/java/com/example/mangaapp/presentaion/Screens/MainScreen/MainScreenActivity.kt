@@ -3,12 +3,14 @@ package com.example.mangaapp.presentaion.Screens.MainScreen
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.lifecycleScope
 import com.example.mangaapp.Domain.Entity.Manga
 import com.example.mangaapp.Domain.Entity.User
 import com.example.mangaapp.R
@@ -19,13 +21,15 @@ import com.example.mangaapp.presentaion.Screens.MainScreen.History.HistoryFragme
 import com.example.mangaapp.presentaion.Screens.MainScreen.Home.MainFragment
 import com.example.mangaapp.presentaion.Screens.MainScreen.Setting.SettingsFragment
 import com.example.mangaapp.presentaion.ViewModels.Manga.MangaViewModel
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 @Suppress("DEPRECATION")
 class MainScreenActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainScreenBinding
     lateinit var user:User
      var selectedManga: Manga?=null
-    val mangaViewModel=MangaViewModel()
+    val mangaViewModel: MangaViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +44,16 @@ class MainScreenActivity : AppCompatActivity() {
 
         @Suppress("DEPRECATION")
         user= intent.getParcelableExtra<User>("User")!!
+        lifecycleScope.launch {
+            val fetchingManga= async {  mangaViewModel.fetchMangaList()}
+            fetchingManga.await()
+            async {    user!!.favManga.forEach {
+                mangaViewModel.getMangaFromIdForFav(it)
+            }}.await()
+            async {    user!!.histManga.forEach {
+                mangaViewModel.getMangaFromIdForHistory(it)
+            }}.await()
+        }
         binding = ActivityMainScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
         if (savedInstanceState == null) {

@@ -13,6 +13,7 @@ import com.example.mangaapp.Domain.UseCase.Manga.LatestMangaUseCase
 import com.example.mangaapp.Domain.UseCase.Manga.PopularMangaUseCase
 import com.example.mangaapp.Domain.UseCase.Manga.SearchMangaUseCase
 import com.example.mangaapp.Utilities.Constants
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -21,19 +22,19 @@ class MangaViewModel : ViewModel() {
     private val _searchedMangaList=MutableLiveData<ArrayList<Manga>>()
     val searchedMangaList:LiveData<ArrayList<Manga>> get()=_searchedMangaList
 
-    private val _latestMangaList = MutableLiveData<ArrayList<Manga>>()
+    private val _latestMangaList  by lazy {MutableLiveData<ArrayList<Manga>>()}
     val latestMangaList: LiveData<ArrayList<Manga>> get() = _latestMangaList
 
-    private val _popularMangaList = MutableLiveData<ArrayList<Manga>>()
+    private val _popularMangaList by lazy {MutableLiveData<ArrayList<Manga>>()}
     val popularMangaList: LiveData<ArrayList<Manga>> get() = _popularMangaList
 
-    private val _recommendedMangaList = MutableLiveData<ArrayList<Manga>>()
+    private val _recommendedMangaList by lazy {MutableLiveData<ArrayList<Manga>>()}
     val recommendedMangaList: LiveData<ArrayList<Manga>> get() = _recommendedMangaList
 
-    private val _favMangaList = MutableLiveData<ArrayList<Manga>>()
+    private val _favMangaList by lazy {MutableLiveData<ArrayList<Manga>>()}
     val favMangaList: LiveData<ArrayList<Manga>> get() = _favMangaList
 
-    private val _histMangaList = MutableLiveData<ArrayList<Manga>>()
+    private val _histMangaList by lazy{ MutableLiveData<ArrayList<Manga>>()}
     val histMangaList: LiveData<ArrayList<Manga>> get() = _histMangaList
 
     private val _errorMessage = MutableLiveData<String>()
@@ -112,6 +113,7 @@ class MangaViewModel : ViewModel() {
             _isLoading.value=true
             try {
                 val currentFavList=_favMangaList.value?: arrayListOf()
+
                 FavMangaUseCase().addMangaToFavList(mangaId = manga.id)
                 currentFavList!!.add(manga)
                 val updatedFavMangaList=ArrayList<Manga>()
@@ -120,6 +122,7 @@ class MangaViewModel : ViewModel() {
 
                 _favMangaList.value=updatedFavMangaList!!
                 Log.d("the main fav manga list data from viewmodel",_favMangaList.value.toString())
+
             } catch (e:Exception){
                 _errorMessage.value=e.message?:"Unknown error"
             } finally {
@@ -127,7 +130,7 @@ class MangaViewModel : ViewModel() {
             }
         }
     }
-    suspend fun getMangaFromId(mangaId: String){
+    suspend fun getMangaFromIdForFav(mangaId: String){
         _isLoading.value=true
         try {
             val currentFavList=_favMangaList.value?: arrayListOf()
@@ -179,11 +182,11 @@ class MangaViewModel : ViewModel() {
         viewModelScope.launch {
             _isLoading.value=true
             try {
-                val currentFavList=_histMangaList.value?: arrayListOf()
+                val currentHistList=_histMangaList.value?: arrayListOf()
                 HistoryMangaUseCase().addMangaToHistoryList(mangaId = manga.id)
-                currentFavList!!.add(manga)
+                currentHistList!!.add(manga)
                 val updatedFavMangaList=ArrayList<Manga>()
-                updatedFavMangaList.addAll(currentFavList)
+                updatedFavMangaList.addAll(currentHistList)
                 Log.d("fav manga data list after update from manga viewmodel",updatedFavMangaList.toString())
 
                 _histMangaList.value=updatedFavMangaList!!

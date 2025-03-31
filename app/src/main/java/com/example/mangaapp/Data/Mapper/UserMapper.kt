@@ -12,6 +12,7 @@ class UserMapper {
                 email = user.userEmail
                 ,histManga=user.histManga,
                 age = user.userAge!!
+
             )
 
         }

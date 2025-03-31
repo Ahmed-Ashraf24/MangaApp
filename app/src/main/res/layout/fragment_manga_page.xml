@@ -74,7 +74,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="★ Favorite"
-                        android:backgroundTint="@android:color/holo_blue_light"
+                        android:backgroundTint="@color/button_selector"
                         android:textColor="@android:color/white"/>
                 </LinearLayout>
 
@@ -89,7 +89,7 @@
                         android:id="@+id/manga_genres"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Manga Name"
+                        android:text="Manga genres"
                         android:textColor="@android:color/black"
                         android:textSize="24sp"
                         android:textStyle="bold" />

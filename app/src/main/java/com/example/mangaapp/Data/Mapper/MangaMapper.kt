@@ -7,7 +7,7 @@ class MangaMapper {
         fun toManga(mangaData: com.example.mangaapp.Data.Models.APIModel.`ِApiResonse`.MangaData, imageUrl:String):Manga{
             return Manga(
                 id=mangaData.id,
-                name = mangaData.attributes.title.get("en")?: "No Title"
+                name = mangaData.attributes.title.get("en")?: mangaData.attributes.title.get("ja-ro")?:"no title"
                 , description = mangaData.attributes.description!!.get("en")?:"no description"
                 , imageUrl = imageUrl,
                 genres = mangaData.attributes.tags
@@ -20,7 +20,7 @@ class MangaMapper {
         fun toManga(mangaData: com.example.mangaapp.Data.Models.APIModel.Response.MangaData, imageUrl:String):Manga{
             return Manga(
                 id=mangaData.id,
-                name = mangaData.attributes.title.get("en")?: "No Title"
+                name = mangaData.attributes.title.get("en")?: mangaData.attributes.title.get("ja-ro")?: "No Title"
                 , description = mangaData.attributes.description!!.get("en")?:"no description"
                 , imageUrl = imageUrl,
                 genres = mangaData.attributes.tags

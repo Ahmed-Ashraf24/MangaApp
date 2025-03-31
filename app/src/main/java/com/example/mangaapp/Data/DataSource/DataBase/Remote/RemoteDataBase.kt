@@ -81,6 +81,7 @@ class RemoteDataBase : DataBaseClient {
                     userAge = document.getLong("age")?.toInt() ?: 0,
                     favManga = fixedFavManga, histManga = histFavManga
                 )
+
                 return globalUser
 
             } else {
@@ -117,19 +118,9 @@ class RemoteDataBase : DataBaseClient {
 
     override suspend fun changeUserEmail(email: String) {
         val user = auth.currentUser!!
-        withContext(Dispatchers.IO) {
-            val userVerification = async { user.sendEmailVerification() }.await()
-            if (userVerification.isSuccessful) {
-                val credential = EmailAuthProvider.getCredential(email, globalUser!!.userPassword)
-                val reAuth = async { user.reauthenticate(credential) }.await()
-                if (reAuth.isSuccessful) {
-                    return@withContext
-                } else {
-                    return@withContext
-                }
-            }
+              user.verifyBeforeUpdateEmail(email)
         }
-    }
+
 
     override suspend fun changUserPassword(password: String) {
         val user=auth.currentUser!!

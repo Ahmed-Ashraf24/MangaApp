@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.mangaapp.R
+import com.example.mangaapp.Utilities.UIAdapters.UpdateAccountDialog
 import com.example.mangaapp.databinding.FragmentAccountBinding
 import com.example.mangaapp.presentaion.Screens.Auth.MainActivity
 import com.example.mangaapp.presentaion.Screens.MainScreen.MainScreenActivity
 import com.example.mangaapp.presentaion.Screens.MainScreen.Setting.SettingsFragment
+import com.example.mangaapp.presentaion.ViewModels.Auth.ResetUserViewModel
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -24,6 +27,7 @@ class AccountFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     lateinit var binding:FragmentAccountBinding
+    val resetUserViewModel=ResetUserViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,9 +53,51 @@ class AccountFragment : Fragment() {
                 .replace(R.id.fragment_container,SettingsFragment())
                 .commit()
         }
+        binding.emailSection.setOnClickListener {
+            showUpdateDialog(UpdateAccountDialog.FieldType.EMAIL)
+        }
+        binding.passwordSection.setOnClickListener {
+            showUpdateDialog(UpdateAccountDialog.FieldType.PASSWORD)
+        }
 
     }
+    private fun showUpdateDialog(fieldType: UpdateAccountDialog.FieldType) {
+        val dialog = UpdateAccountDialog(requireContext(), fieldType) { newValue ->
+            when (fieldType) {
+                UpdateAccountDialog.FieldType.EMAIL -> {
+                resetUserViewModel.resetUserEmail(email = newValue)
+                    resetUserViewModel.emailResetStatus.value?.let {
+                        result ->
+                        result.fold(
+                            onSuccess = {
+                                Toast.makeText(requireContext(),"check your email and verify it to complete the update",Toast.LENGTH_LONG).show()
+                            }
+                                , onFailure = {exception ->
+                                Toast.makeText(requireContext(),exception.message,Toast.LENGTH_LONG).show()
 
+
+                            })
+                    }
+                }
+                UpdateAccountDialog.FieldType.PASSWORD -> {
+                    resetUserViewModel.resetUserPassword(password = newValue)
+                    resetUserViewModel.passwordResetStatus.value?.let {
+                            result ->
+                        result.fold(
+                            onSuccess = {
+                                Toast.makeText(requireContext(),"the password updated successfully",Toast.LENGTH_LONG).show()
+                            }
+                            , onFailure = {exception ->
+                                Toast.makeText(requireContext(),exception.message,Toast.LENGTH_LONG).show()
+
+
+                            })
+                    }
+                }
+            }
+        }
+        dialog.show()
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of

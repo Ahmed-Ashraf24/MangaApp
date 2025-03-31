@@ -3,6 +3,7 @@ package com.example.mangaapp.Utilities.UIAdapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mangaapp.R
@@ -10,7 +11,7 @@ import com.github.chrisbanes.photoview.PhotoView
 
 class PanelAdapter(val panelsListURL : ArrayList<String> ): RecyclerView.Adapter<PanelAdapter.PanelsViewHolder>() {
     class PanelsViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
-            val image :PhotoView = itemView.findViewById( R.id.mangaPanel)
+            val image :ImageView = itemView.findViewById( R.id.mangaPanel)
         fun binding(imageURL:String){
             Glide.with(itemView.context)
                 .load(imageURL)
