@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.mangaapp.Data.DataSource.DataBase.Remote.RemoteDataBase
+import com.example.mangaapp.Data.RepoImp.LogInImpl
 import com.example.mangaapp.Domain.Entity.User
-import com.example.mangaapp.Domain.UseCase.Auth.RemoteLogInUseCase
+import com.example.mangaapp.Domain.UseCase.Auth.LogInUseCase
 import kotlinx.coroutines.launch
 
 class LogInViewModel : ViewModel() {
@@ -28,7 +30,7 @@ class LogInViewModel : ViewModel() {
             _isLoading.value = true
 
             try {
-                val user = RemoteLogInUseCase(email, password).excute()
+                val user = LogInUseCase(email, password,LogInImpl(RemoteDataBase())).excute()
                 val favlist=ArrayList<String>()
                 favlist.addAll(user!!.favManga)
                 _favMangaList.value=favlist
@@ -40,7 +42,7 @@ class LogInViewModel : ViewModel() {
             } catch (e: Exception) {
                 _loginState.value = Result.failure(e)
             } finally {
-                _isLoading.value = false // Stop loading
+                _isLoading.value = false
             }
         }
     }
