@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.mangaapp.Data.DataSource.DataBase.Remote.RemoteDataBase
+import com.example.mangaapp.Data.RepoImp.AccountImpl
 import com.example.mangaapp.Domain.UseCase.Auth.ChangeEmailUseCase
 import com.example.mangaapp.Domain.UseCase.Auth.ChangePasswordUseCase
 import com.example.mangaapp.Utilities.Constants
@@ -20,7 +22,7 @@ class ResetUserViewModel : ViewModel() {
         try {
             if (Constants.isValidEmail(email)){
                 viewModelScope.launch {
-                    ChangeEmailUseCase().changeUserEmail(email)
+                    ChangeEmailUseCase(AccountImpl(RemoteDataBase())).changeUserEmail(email)
                     _emailResetStatus.value=Result.success(Unit)
                 }
             }
@@ -35,7 +37,7 @@ class ResetUserViewModel : ViewModel() {
     fun resetUserPassword(password:String){
         try{
             viewModelScope.launch {
-                ChangePasswordUseCase().changeUserPassword(password)
+                ChangePasswordUseCase(AccountImpl(RemoteDataBase())).changeUserPassword(password)
                 _emailResetStatus.value=Result.success(Unit)
             }
 

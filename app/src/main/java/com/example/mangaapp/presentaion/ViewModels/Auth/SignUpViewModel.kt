@@ -3,8 +3,10 @@ package com.example.mangaapp.presentaion.ViewModels.Auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.mangaapp.Data.DataSource.DataBase.Remote.RemoteDataBase
 import com.example.mangaapp.Data.Models.DataBaseModel.UserEntity
-import com.example.mangaapp.Domain.UseCase.Auth.RemoteSignUpUseCase
+import com.example.mangaapp.Data.RepoImp.SignUpImpl
+import com.example.mangaapp.Domain.UseCase.Auth.SignUpUseCase
 import com.example.mangaapp.Utilities.Constants
 
 class SignUpViewModel :ViewModel() {
@@ -17,7 +19,7 @@ class SignUpViewModel :ViewModel() {
         val isEmailValid= Constants.isValidEmail(user.userEmail)
         if(isEmailValid){
            return try {
-                RemoteSignUpUseCase(user).signUp()
+                SignUpUseCase(SignUpImpl(user,RemoteDataBase())).signUp()
                 _registerState.value = Result.success(Unit)
                 true
             } catch (e: Exception) {

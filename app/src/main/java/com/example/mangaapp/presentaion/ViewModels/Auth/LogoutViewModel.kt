@@ -3,7 +3,9 @@ package com.example.mangaapp.presentaion.ViewModels.Auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.mangaapp.Domain.UseCase.Auth.RemoteLogoutUseCase
+import com.example.mangaapp.Data.DataSource.DataBase.Remote.RemoteDataBase
+import com.example.mangaapp.Data.RepoImp.LogoutImpl
+import com.example.mangaapp.Domain.UseCase.Auth.LogoutUseCase
 
 class LogoutViewModel : ViewModel() {
     private val _logoutState = MutableLiveData<Result<Unit>>()
@@ -13,7 +15,7 @@ class LogoutViewModel : ViewModel() {
 
     fun logout(){
             try {
-                RemoteLogoutUseCase().logout()
+                LogoutUseCase(LogoutImpl(RemoteDataBase())).logout()
                 _logoutState.value = Result.success(Unit)
             } catch (e: Exception) {
                 _logoutState.value = Result.failure(e)

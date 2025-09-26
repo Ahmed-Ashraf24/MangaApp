@@ -1,11 +1,11 @@
 package com.example.mangaapp.Domain.UseCase.Auth
 
-import com.example.mangaapp.Data.RepoImp.RemoteAccountImpl
+import com.example.mangaapp.Data.DataSource.DataBase.Remote.RemoteDataBase
+import com.example.mangaapp.Data.RepoImp.AccountImpl
 import com.example.mangaapp.Domain.RepoInterface.AccountRepo
 
-class ChangeEmailUseCase {
-    val remoteAccount:AccountRepo=RemoteAccountImpl()
+class ChangeEmailUseCase(private val accountRepo: AccountRepo) {
     suspend fun changeUserEmail(email:String){
-        remoteAccount.changeEmail(email)
+        accountRepo.changeEmail(email)
     }
 }
