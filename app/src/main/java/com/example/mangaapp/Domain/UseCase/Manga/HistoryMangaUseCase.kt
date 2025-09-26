@@ -1,17 +1,15 @@
 package com.example.mangaapp.Domain.UseCase.Manga
 
 import com.example.mangaapp.Data.RepoImp.MangaRepositoryImpl
-import com.example.mangaapp.Data.RepoImp.RemoteHistoryImpl
+import com.example.mangaapp.Data.RepoImp.HistoryImpl
 import com.example.mangaapp.Domain.Entity.Manga
+import com.example.mangaapp.Domain.RepoInterface.FavoriteRepo
 import com.example.mangaapp.Domain.RepoInterface.HistoryRepo
 import com.example.mangaapp.Domain.RepoInterface.MangaRepository
 
-class HistoryMangaUseCase {
-    val remoteFavManga: HistoryRepo = RemoteHistoryImpl()
-    val mangaRepo: MangaRepository = MangaRepositoryImpl()
-
+class HistoryMangaUseCase(private val historyRepo:HistoryRepo,private val mangaRepo: MangaRepository) {
     suspend fun addMangaToHistoryList(mangaId:String){
-        remoteFavManga.addingHistoryManga(mangaId = mangaId)
+        historyRepo.addingHistoryManga(mangaId = mangaId)
     }
     suspend fun getMangaFromId(mangaId: String): Manga {
         return mangaRepo.getMangaDetails(mangaId)!!
