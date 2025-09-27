@@ -31,14 +31,10 @@ class LogInViewModel : ViewModel() {
 
             try {
                 val user = LogInUseCase(email, password,LogInImpl(RemoteDataBase())).excute()
-                val favlist=ArrayList<String>()
-                favlist.addAll(user!!.favManga)
-                _favMangaList.value=favlist
-                if (user != null) {
-                    _loginState.value = Result.success(user)
-                } else {
-                    _loginState.value = Result.failure(Exception("Invalid email or password"))
-                }
+                val favList=ArrayList<String>()
+                favList.addAll(user!!.favManga)
+                _favMangaList.value=favList
+                _loginState.value = Result.success(user)
             } catch (e: Exception) {
                 _loginState.value = Result.failure(e)
             } finally {
