@@ -9,6 +9,7 @@ class PopularMangaUseCase {
     suspend fun getAllManga():ArrayList<Manga>{
 
         return popularManga.getPopularManga()
+
     }
 
 }
