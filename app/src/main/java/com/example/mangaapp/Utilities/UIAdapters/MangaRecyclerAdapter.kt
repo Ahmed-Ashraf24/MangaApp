@@ -1,5 +1,6 @@
 package com.example.mangaapp.Utilities.UIAdapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +22,6 @@ class MangaRecyclerAdapter(private val mangaList: ArrayList<Manga>,
         fun bind(manga: Manga) {
             mangaName.text = manga.name
             mangaGenres.text=manga.genres
-            // Load image using a library like Glide or Picasso
             Glide.with(itemView.context)
                 .load(manga.imageUrl)
                 .placeholder(R.drawable.placeholder_image)
@@ -29,11 +29,7 @@ class MangaRecyclerAdapter(private val mangaList: ArrayList<Manga>,
                 .into(mangaImage)
         }
     }
-    fun updateList(newList: ArrayList<Manga>) {
-        mangaList.clear()
-        mangaList.addAll(newList)
-        notifyDataSetChanged()
-    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MangaViewHolder {
               val view= LayoutInflater.from(parent.context).inflate(R.layout.manga_item,parent,false)
