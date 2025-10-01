@@ -13,7 +13,7 @@ import com.example.mangaapp.Domain.Entity.Manga
 import com.example.mangaapp.Domain.RepoInterface.MangaRepository
 import retrofit2.Response
 
-class MangaRepositoryImpl : MangaRepository {
+class MangaDexImpl : MangaRepository {
     @SuppressLint("SuspiciousIndentation")
     override suspend fun getLatestManga(): ArrayList<Manga> {
 
@@ -22,6 +22,7 @@ class MangaRepositoryImpl : MangaRepository {
                 "order[latestUploadedChapter]" to "desc"
             )
         )
+        response
         return getMangaFromResponse(response)
 
     }
@@ -60,11 +61,17 @@ class MangaRepositoryImpl : MangaRepository {
         val chapterResponse = api.getAllChapters(mangaId)
         if (chapterResponse.isSuccessful) {
             Log.d("Chapter data from repo", chapterResponse.body().toString())
-
+            Log.d("response code",chapterResponse.code().toString())
+            Log.d("response message",chapterResponse.message())
             return ArrayList(chapterResponse.body()!!.data.mapNotNull { chapterData ->
+
                 ChapterMapper.toChapter(chapterData)
-            })
+            
+            }
+            )
         } else {
+            Log.d("response code",chapterResponse.code().toString())
+            Log.d("response message",chapterResponse.message())
             return ArrayList()
         }
     }
@@ -76,11 +83,14 @@ class MangaRepositoryImpl : MangaRepository {
         val chapterResponse = api.getAllChapters(mangaId = mangaId, offset = offsetNumber)
 
         if (chapterResponse.isSuccessful) {
-
+            Log.d("response code",chapterResponse.code().toString())
+            Log.d("response message",chapterResponse.message())
             return ArrayList(chapterResponse.body()!!.data.mapNotNull { chapterData ->
                 ChapterMapper.toChapter(chapterData)
             })
         } else {
+            Log.d("response code",chapterResponse.code().toString())
+            Log.d("response message",chapterResponse.message())
             return ArrayList()
         }
     }
@@ -89,6 +99,9 @@ class MangaRepositoryImpl : MangaRepository {
         val pagesResponse = api.getChapterImages(chapterId = chapter.chapterId)
         if (pagesResponse.isSuccessful) {
             val pagesURL = ArrayList<String>()
+            Log.d("response code",pagesResponse.code().toString())
+            Log.d("response message",pagesResponse.message())
+
             Log.d("Chapter panels from repo", pagesResponse.body().toString())
 
             pagesResponse.body()!!.chapter.data.forEach {
@@ -99,6 +112,8 @@ class MangaRepositoryImpl : MangaRepository {
             }
             return ChapterPageMapper.toChapterPanels(chapter, pagesURL)
         } else {
+            Log.d("response code",pagesResponse.code().toString())
+            Log.d("response message",pagesResponse.message())
             return null
         }
     }
@@ -121,6 +136,8 @@ class MangaRepositoryImpl : MangaRepository {
             val manga = response.body()?.data
             val coverFileName =
                 manga?.relationships?.find { it.type == "cover_art" }?.attributes?.fileName
+            Log.d("cover url",coverFileName.toString())
+
             return coverFileName?.let { "https://uploads.mangadex.org/covers/$mangaId/$it" }
         }
         return null
